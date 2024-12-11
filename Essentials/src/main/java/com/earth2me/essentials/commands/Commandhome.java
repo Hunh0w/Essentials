@@ -73,10 +73,14 @@ public class Commandhome extends EssentialsCommand {
                 final List<String> homes = finalPlayer.getHomes();
                 if (homes.isEmpty() && finalPlayer.equals(user)) {
                     if (ess.getSettings().isSpawnIfNoHome()) {
-                        final UserTeleportHomeEvent event = new UserTeleportHomeEvent(user, null, bed != null ? bed : finalPlayer.getWorld().getSpawnLocation(), bed != null ? UserTeleportHomeEvent.HomeType.BED : UserTeleportHomeEvent.HomeType.SPAWN);
-                        server.getPluginManager().callEvent(event);
-                        if (!event.isCancelled()) {
-                            user.getAsyncTeleport().respawn(charge, TeleportCause.COMMAND, getNewExceptionFuture(user.getSource(), commandLabel));
+                        if(bed == null || finalPlayer.isAuthorized("essentials.home.bed")){
+                            final UserTeleportHomeEvent event = new UserTeleportHomeEvent(user, null, bed != null ? bed : finalPlayer.getWorld().getSpawnLocation(), bed != null ? UserTeleportHomeEvent.HomeType.BED : UserTeleportHomeEvent.HomeType.SPAWN);
+                            server.getPluginManager().callEvent(event);
+                            if (!event.isCancelled()) {
+                                user.getAsyncTeleport().respawn(charge, TeleportCause.COMMAND, getNewExceptionFuture(user.getSource(), commandLabel));
+                            }
+                        }else {
+                            showError(user.getBase(), new TranslatableException("noPerm", "essentials.home.bed"), commandLabel);
                         }
                     } else {
                         showError(user.getBase(), new TranslatableException("noHomeSetPlayer"), commandLabel);
