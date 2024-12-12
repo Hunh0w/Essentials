@@ -803,7 +803,6 @@ public class EssentialsPlayerListener implements Listener, FakeAccessor {
                             player.sendTl("bedSet", player.getLocation().getWorld().getName(), player.getLocation().getBlockX(), player.getLocation().getBlockY(), player.getLocation().getBlockZ());
                         }
                     } else if (!isAuthorized) {
-                        player.sendMessage("event canceled");
                         event.setCancelled(true);
                     }
                 }
